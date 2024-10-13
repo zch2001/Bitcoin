@@ -21,14 +21,14 @@ docker-run:
 	docker run -d \
 	--network bitExp-network \
 	--name $(DOCKER_CONTAINER_NAME) \
-	-p $(FLASK_PORT):$(FLASK_PORT) \
-	-e MYSQL_HOST=$(DB_HOST) \
-	-e MYSQL_USER=$(DB_USER) \
-	-e MYSQL_PASSWORD=$(DB_PASSWORD) \
+	-p 5000:5000 \
+	-e MYSQL_HOST=$(MYSQL_HOST) \
+	-e MYSQL_USER=$(MYSQL_USER) \
+	-e MYSQL_PASSWORD=$(MYSQL_PASSWORD) \
 	-e MYSQL_DB=bitcoin_explorer \
-	-e RPC_PASSWORD=$(RPC_PASSWORD) \
-	-e RPC_HOST=$(RPC_HOST) \
-	-e RPC_PORT=$(RPC_PORT) \
+	-e REDIS_HOST=$(REDIS_HOST) \
+	-e REDIS_PORT=$(REDIS_PORT) \
+	-e REDIS_PASSWORD=$(REDIS_PASSWORD) \
 	$(DOCKER_IMAGE_NAME)
 
 # Clean docker container
