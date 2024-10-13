@@ -1,0 +1,8 @@
+Flask==2.0.0
+Flask-Cors==5.0.0
+Flask-MySQLdb==0.2.0
+mysqlclient==2.1.1
+PyMySQL==1.1.1
+requests==2.25.1
+Werkzeug==2.2.2
+pyopenssl==21.0.0

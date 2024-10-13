@@ -1,3 +1,4 @@
+
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -47,7 +48,6 @@ def get_stats():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 # 创建数据库连接
 def get_db_connection():
     connection = pymysql.connect(
@@ -60,24 +60,24 @@ def get_db_connection():
     return connection
 
 
-@app.route('/api/get_data', methods=['POST', 'OPTIONS'])
+
+@app.route('/api/get_data', methods=['GET', 'OPTIONS'])
 def get_data():
     if request.method == 'OPTIONS':
-        # 处理预检请求
+
         return _build_cors_prelight_response()
 
-    if request.method == 'POST':
+    if request.method == 'GET':
         try:
-            # 获取数据库连接
+
             connection = get_db_connection()
             with connection.cursor() as cursor:
                 query = "SELECT * FROM Best_blocks"
                 cursor.execute(query)
-                results = cursor.fetchall()  # 获取所有数据
+                results = cursor.fetchall()
 
             connection.close()
 
-            # 返回 JSON 数据给前端
             return jsonify({"data": results}), 200
 
         except Exception as e:
@@ -87,14 +87,12 @@ def get_data():
 def _build_cors_prelight_response():
     response = jsonify({})
     response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    response.headers.add('Access-Control-Allow-Methods', 'GET, OPTIONS')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
     return response, 200
 
 
 if __name__ == '__main__':
-    # 主机名和端口
-    hostName = "localhost"
-    hostPort = 5000
-    print(f"Server started at http://{hostName}:{hostPort}")
-    app.run(host=hostName, port=hostPort, debug=True)
+    hostName = "0.0.0.0"
+    app.run(host=hostName, port=FLASK_PORT, debug=True)
+
