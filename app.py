@@ -4,17 +4,16 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pymysql
 import redis
+import datetime
 
 app = Flask(__name__)
-CORS(app)  # 允许跨域请求
+CORS(app)  
 
-# 从环境变量中获取数据库配置
 MYSQL_HOST = os.getenv('MYSQL_HOST')
 MYSQL_USER = os.getenv('MYSQL_USER')
 MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
 MYSQL_DB = os.getenv('MYSQL_DB')
 
-# 配置 Redis 连接
 redis_client = redis.Redis(
     host='redis-13139.c73.us-east-1-2.ec2.redns.redis-cloud.com',
     port=13139,
@@ -26,29 +25,29 @@ redis_client = redis.Redis(
 @app.route('/api/stats', methods=['GET'])
 def get_stats():
     try:
-        # 从 Redis 获取数据
         total_supply = redis_client.get('total_supply')
         blockchain_size = redis_client.get('blockchain_size')
         block_height = redis_client.get('block_height')
         network_hashrate = redis_client.get('network_hashrate')
         mempool_size = redis_client.get('mempool_size')
         difficulty = redis_client.get('difficulty')
+        
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # 构建响应数据
         stats = {
             "total_supply": total_supply,
             "blockchain_size": blockchain_size,
             "block_height": block_height,
             "network_hashrate": network_hashrate,
             "mempool_size": mempool_size,
-            "difficulty": difficulty
+            "difficulty": difficulty,
+            "timestamp": timestamp
         }
         return jsonify(stats), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# 创建数据库连接
 def get_db_connection():
     connection = pymysql.connect(
         host=MYSQL_HOST,
@@ -93,6 +92,5 @@ def _build_cors_prelight_response():
 
 
 if __name__ == '__main__':
-    hostName = "0.0.0.0"
-    app.run(host=hostName, port=FLASK_PORT, debug=True)
+    app.run()
 
