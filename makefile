@@ -26,7 +26,9 @@ docker-run:
 	-e MYSQL_USER=$(DB_USER) \
 	-e MYSQL_PASSWORD=$(DB_PASSWORD) \
 	-e MYSQL_DB=bitcoin_explorer \
-	-e FLASK_PORT=$(FLASK_PORT) \
+	-e RPC_PASSWORD=$(RPC_PASSWORD) \
+	-e RPC_HOST=$(RPC_HOST) \
+	-e RPC_PORT=$(RPC_PORT) \
 	$(DOCKER_IMAGE_NAME)
 
 # Clean docker container
