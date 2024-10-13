@@ -13,11 +13,14 @@ MYSQL_HOST = os.getenv('MYSQL_HOST')
 MYSQL_USER = os.getenv('MYSQL_USER')
 MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
 MYSQL_DB = os.getenv('MYSQL_DB')
+REDIS_HOST = os.getenv('REDIS_HOST')
+REDIS_PORT = os.getenv('REDIS_PORT')
+REDIS_PASSWORD = os.getenv('REDIS_PASSWORD')
 
 redis_client = redis.Redis(
-    host='redis-13139.c73.us-east-1-2.ec2.redns.redis-cloud.com',
-    port=13139,
-    password='gBDV7hVG4HHLbsEi8xd4euZfW0JxLZM8',
+    host=REDIS_HOST,
+    port=REDIS_PORT,
+    password=REDIS_PASSWORD,
     decode_responses=True
 )
 
